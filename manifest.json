@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Thunderbird Pruebas de extensiones",
+  "version": "1.0",
+  "description": "Es una prueba de creación de una extensión en Thunderbird",
+  "author": "JuanFco.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "Pruebas_Estensiones@locomundo.es",
+      "strict_min_version": "78.0"
+    }
+  },
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Extensión de Pruebas",
+    "default_icon": "icons/internet-32px.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "icons": {
+    "64": "icons/internet.png",
+    "32": "icons/internet-32px.png",
+    "16": "icons/internet-16px.png"
+  }
+}
