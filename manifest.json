@@ -30,7 +30,7 @@
   },
   "experiment_apis": {
     "filterManagerApi": {
-      "schema": "schema.json",
+      "schema": "api/schema.json",
       "parent": {
         "scopes": [
           "addon_parent"
@@ -40,7 +40,7 @@
             "filterManagerApi"
           ]
         ],
-        "script": "implementation.js"
+        "script": "api/implementation.js"
       }
     }
   }
