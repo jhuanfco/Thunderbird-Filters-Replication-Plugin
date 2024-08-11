@@ -1,0 +1,13 @@
+[
+  {
+    "namespace": "filterManagerApi",
+    "functions": [
+      {
+        "name": "filterManager",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      }
+    ]
+  }
+]
