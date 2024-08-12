@@ -22,9 +22,26 @@
             "name": { "type": "string" }
           }
         }
-      }
+      },
    
       
+      {
+        "name": "getAccountsInfo",
+        "type": "function",
+        "async": true,
+        "parameters": [],
+        "returns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": { "type": "string" },
+              "name": { "type": "string" },
+              "filterFilePath": { "type": "string" }
+            }
+          }
+        }
+      }
     ]
   }
 ]
