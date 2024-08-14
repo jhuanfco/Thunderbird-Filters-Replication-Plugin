@@ -1,40 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const sourceSelect = document.getElementById('source-account');
-  const targetSelect = document.getElementById('target-account');
+    const sourceSelect = document.getElementById('source-account');
+    const targetSelect = document.getElementById('target-account');
+    const sourcePath = document.getElementById('source-path');
+    const targetPath = document.getElementById('target-path');
 
-  function populateSelect(select, accounts) {
-      accounts.forEach(account => {
-          const option = document.createElement('option');
-          option.value = account.key;
-          option.textContent = `${account.name}`;
-          option.title = account.filterFilePath;
-          select.appendChild(option);
-      });
-  }
+    let accountsData = [];
 
-  browser.filterManagerApi.getAccountsInfo().then(accounts => {
-      populateSelect(sourceSelect, accounts);
-      populateSelect(targetSelect, accounts);
-  }).catch(error => {
-      console.error('Error al obtener las cuentas:', error);
-  });
-});
-
-
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const accountsList = document.getElementById('accounts-list');
-
-    // Llama a la función getAccountsInfo y muestra la información
-    browser.filterManagerApi.getAccountsInfo().then(accounts => {
+    function populateSelect(select, accounts) {
+        select.innerHTML = '<option value="">Seleccione una cuenta</option>';
         accounts.forEach(account => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span>${account.name}</span><span class="path">${account.filterFilePath}</span>`;
-            accountsList.appendChild(li);
+            const option = document.createElement('option');
+            option.value = account.key;
+            option.textContent = account.name;
+            select.appendChild(option);
         });
+    }
+
+    function updatePath(select, pathElement) {
+        const selectedAccount = accountsData.find(account => account.key === select.value);
+        if (selectedAccount) {
+            pathElement.textContent = `Ruta: ${selectedAccount.filterFilePath}`;
+        } else {
+            pathElement.textContent = '';
+        }
+    }
+
+    browser.filterManagerApi.getAccountsInfo().then(accounts => {
+        accountsData = accounts;
+        populateSelect(sourceSelect, accounts);
+        populateSelect(targetSelect, accounts);
+
+        sourceSelect.addEventListener('change', () => updatePath(sourceSelect, sourcePath));
+        targetSelect.addEventListener('change', () => updatePath(targetSelect, targetPath));
     }).catch(error => {
         console.error('Error al obtener las cuentas:', error);
     });
 });
-
-*/
