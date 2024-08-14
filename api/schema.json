@@ -2,28 +2,7 @@
   {
     "namespace": "filterManagerApi",
     "functions": [
-      {
-        "name": "filterManager",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-      
-      {
-        "name": "getSelectedAccount",
-        "type": "function",
-        "async": true,
-        "parameters": [],
-        "returns": {
-          "type": "object",
-          "properties": {
-            "key": { "type": "string" },
-            "name": { "type": "string" }
-          }
-        }
-      },
-   
+  
       
       {
         "name": "getAccountsInfo",
@@ -42,6 +21,10 @@
           }
         }
       }
+
+
+
+
     ]
   }
 ]
