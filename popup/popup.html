@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html>
-  
-<head>
-  <meta charset="UTF-8">
-  <title>Thunderbird Filter Copier</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="popup.css">
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Lista de Cuentas</title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
-
 <body>
-  <div class="popup-page">
-    <h1>Thunderbird Filter Copier</h1>
-    <p>Cuentas de correo configuradas:</p>
-    <ul id="accountList"></ul>
-  </div>
-  <script src="popup.js"></script>
+    <div id="content">
+        <h2>Cuentas configuradas</h2>
+        <ul id="accounts-list">
+            <!-- Aquí se añadirán las cuentas y las rutas locales -->
+        </ul>
+    </div>
+    <script src="popup.js"></script>
 </body>
-
 </html>

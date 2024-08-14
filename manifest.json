@@ -18,7 +18,7 @@
     ]
   },
 
-  "browser_action": {
+  "browser_action": { 
     "default_title": "FILTROS",
     "default_icon": "icons/internet-32px.png"
   },
@@ -28,18 +28,13 @@
     "32": "icons/internet-32px.png",
     "16": "icons/internet-16px.png"
   },
+
   "experiment_apis": {
     "filterManagerApi": {
       "schema": "api/schema.json",
       "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          [
-            "filterManagerApi"
-          ]
-        ],
+        "scopes": ["addon_parent"],
+        "paths": [["filterManagerApi"]],
         "script": "api/implementation.js"
       }
     }
