@@ -16,14 +16,30 @@
             "properties": {
               "key": { "type": "string" },
               "name": { "type": "string" },
-              "filterFilePath": { "type": "string" }
+              "filterFilePath": { "type": "string" } 
             }
           }
         }
+      }, 
+
+      {
+        "name": "leeFichero",
+        "type": "function",
+        "description": "Lee el contenido de un archivo de texto especificado por su ruta de archivo. La función recibe una cadena de texto que representa la ruta del archivo y devuelve el contenido del archivo como una cadena de texto.",
+        "parameters": [
+          {
+            "name": "filePath",
+            "type": "string",
+            "description": "La ruta completa del archivo de texto que se desea leer. Debe ser una ruta válida dentro del sistema de archivos accesible."
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "El contenido del archivo de texto leído. Si ocurre un error durante la lectura, se lanzará una excepción."
+        },
+        "async": true
       }
-
-
-
+    
 
     ]
   }

@@ -1,13 +1,11 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
-//var xulAppInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
 
 var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       filterManagerApi: {
 //Inicio de funciones    
-
         async getAccountsInfo() {
           try {
             let accountManager = MailServices.accounts;
@@ -23,7 +21,7 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
                 accountsInfo.push({
                   key: account.key,
                   name: server.prettyName,
-                  filterFilePath: filterFilePath.path
+                  filterFilePath: filterFilePath.path 
                 });
               }
             }
@@ -34,6 +32,36 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             return [];
           }
         },
+
+        async  leeFichero(filePath) {
+          try {
+            // Usar APIs nativas de Thunderbird para leer archivos
+            let file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
+            file.initWithPath(filePath);
+            
+            let fstream = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+            let cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"].createInstance(Components.interfaces.nsIConverterInputStream);
+
+            fstream.init(file, -1, 0, 0);
+            cstream.init(fstream, "UTF-8", 0, 0);
+
+            let data = "";
+            let str = {};
+            let read = 0;
+            do {
+              read = cstream.readString(0xffffffff, str);
+              data += str.value;
+            } while (read != 0);
+
+            cstream.close();
+            return data;
+            
+          } catch (error) {
+            console.error('Error al abrir el archivo:', error);
+            throw error;
+          }
+        }
+
 
 //Fin de funciones        
       },
