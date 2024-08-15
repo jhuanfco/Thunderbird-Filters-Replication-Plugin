@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // dos formas: 
                browser.filterManagerApi.leeFichero(selectedAccount.filterFilePath)
                     .then((contenidoFichero) => pathElement.textContent = contenidoFichero);
-               browser.filterManagerApi.escribirAlFinal(selectedAccount.filterFilePath,"prueba de escritura");
+  //             browser.filterManagerApi.escribirAlFinal(selectedAccount.filterFilePath,"prueba de escritura");
 
             // pathElement.textContent = await browser.filterManagerApi.leeFichero(selectedAccount.filterFilePath);
         } else {

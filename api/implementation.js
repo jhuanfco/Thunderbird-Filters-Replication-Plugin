@@ -54,6 +54,10 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             } while (read != 0);
 
             cstream.close();
+
+            // Procesar los datos para crear el array de filtros
+            this.procesarFiltros(data);
+            
             return data;
             
           } catch (error) {
@@ -93,8 +97,42 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
               console.error(`Error al escribir en el archivo: ${err}`);
               throw err;
           }
-      }
+      },
       
+      procesarFiltros(data) {
+        // Dividir el contenido en líneas
+        const lineas = data.split('\n');
+        const filtros = [];
+        let filtroActual = null;
+
+        for (const linea of lineas) {
+          if (linea.startsWith('name=')) {
+            // Nuevo filtro
+            if (filtroActual) {
+              filtros.push(filtroActual);
+            }
+            filtroActual = { name: linea.substring(5) };
+          } else if (filtroActual) {
+            // Añadir más información al filtro actual
+            const [clave, valor] = linea.split('=');
+            if (clave && valor) {
+              filtroActual[clave] = valor;
+            }
+          }
+        }
+
+        // Añadir el último filtro si existe
+        if (filtroActual) {
+          filtros.push(filtroActual);
+        }
+
+        // Imprimir el array de filtros en la consola
+        console.log('Array de filtros:', filtros);
+
+        return filtros;
+      },
+
+
 
 //Fin de funciones        
       },
