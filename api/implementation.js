@@ -65,7 +65,36 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             throw error;
           }
         },
-        
+
+        async escribirAlFinal(rutaFichero, contenidoFiltro) {
+          try {
+            let file = Components.classes["@mozilla.org/file/local;1"]
+                                 .createInstance(Components.interfaces.nsIFile);
+            file.initWithPath(rutaFichero);
+    
+            let fstream = Components.classes["@mozilla.org/network/file-output-stream;1"]
+                                     .createInstance(Components.interfaces.nsIFileOutputStream);
+    
+            fstream.init(file, 0x02 | 0x10, 0o666, 0);
+    
+            let cstream = Components.classes["@mozilla.org/intl/converter-output-stream;1"]
+                                     .createInstance(Components.interfaces.nsIConverterOutputStream);
+    
+            cstream.init(fstream, "UTF-8", 0, 0);
+    
+            cstream.writeString("\n" + contenidoFiltro);
+    
+            cstream.close();
+            fstream.close();
+    
+            console.log('Filtro añadido correctamente.');
+            return true;
+          } catch (err) {
+            console.error(`Error al escribir en el archivo: ${err}`);
+            throw err;
+          }
+        },
+  /*        
         async  escribirAlFinal(rutaFichero, linea) {
           try {
               // Usar APIs nativas de Thunderbird para acceder al archivo
@@ -98,7 +127,7 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
               throw err;
           }
       },
-      
+    
       procesarFiltros(data) {
         // Dividir el contenido en líneas
         const lineas = data.split('\n');
@@ -126,13 +155,32 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
           filtros.push(filtroActual);
         }
 
-        // Imprimir el array de filtros en la consola
-        console.log('Array de filtros:', filtros);
-
         return filtros;
       },
 
+*/
+procesarFiltros(data) {
+  const lineas = data.split('\n');
+  const filtros = [];
+  let filtroActual = null;
 
+  for (const linea of lineas) {
+    if (linea.startsWith('name=')) {
+      if (filtroActual) {
+        filtros.push(filtroActual);
+      }
+      filtroActual = { name: linea.substring(5), content: linea };
+    } else if (filtroActual) {
+      filtroActual.content += '\n' + linea;
+    }
+  }
+
+  if (filtroActual) {
+    filtros.push(filtroActual);
+  }
+
+  return filtros;
+}
 
 //Fin de funciones        
       },
