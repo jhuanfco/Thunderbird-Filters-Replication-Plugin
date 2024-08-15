@@ -49,22 +49,27 @@
       {
         "name": "escribirAlFinal",
         "type": "function",
-        "description": "Escribe una línea al final de un archivo de texto especificado por su ruta de archivo. La función recibe una cadena de texto que representa la ruta del archivo y otra cadena que representa la línea a añadir. No devuelve ningún valor.",
+        "description": "Escribe un nuevo filtro al final del archivo de filtros especificado y notifica a Thunderbird del cambio.",
         "parameters": [
           {
-            "name": "filePath",
+            "name": "rutaFichero",
             "type": "string",
-            "description": "La ruta completa del archivo de texto al que se desea añadir la línea. Debe ser una ruta válida dentro del sistema de archivos accesible."
+            "description": "La ruta completa del archivo de filtros donde se añadirá el nuevo filtro."
           },
           {
-            "name": "linea",
+            "name": "contenidoFiltro",
             "type": "string",
-            "description": "La línea de texto que se añadirá al final del archivo especificado."
+            "description": "El contenido completo del filtro que se va a añadir."
+          },
+          {
+            "name": "accountKey",
+            "type": "string",
+            "description": "La clave de la cuenta de correo asociada con el archivo de filtros."
           }
         ],
         "returns": {
-          "type": "void",
-          "description": "No retorna ningún valor. Si ocurre un error durante la escritura, se lanzará una excepción."
+          "type": "boolean",
+          "description": "True si el filtro se añadió correctamente, false en caso contrario."
         },
         "async": true
       }

@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Desde:', sourceAccount.filterFilePath);
                 console.log('Hacia:', targetAccount.filterFilePath);
 
-                await browser.filterManagerApi.escribirAlFinal(targetAccount.filterFilePath, selectedFilter.content);
+                await browser.filterManagerApi.escribirAlFinal(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
                 console.log('Filtro copiado con éxito');
                 alert('Filtro copiado con éxito');
             } catch (error) {

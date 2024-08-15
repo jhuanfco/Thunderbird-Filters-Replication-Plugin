@@ -5,7 +5,6 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       filterManagerApi: {
-//Inicio de funciones    
         async getAccountsInfo() {
           try {
             let accountManager = MailServices.accounts;
@@ -33,9 +32,8 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
           }
         },
 
-        async  leeFichero(filePath) {
+        async leeFichero(filePath) {
           try {
-            // Usar APIs nativas de Thunderbird para leer archivos
             let file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
             file.initWithPath(filePath);
             
@@ -55,18 +53,37 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
 
             cstream.close();
 
-            // Procesar los datos para crear el array de filtros
             return this.procesarFiltros(data);
-
-           // return data;
-            
           } catch (error) {
             console.error('Error al abrir el archivo:', error);
             throw error;
           }
         },
 
-        async escribirAlFinal(rutaFichero, contenidoFiltro) {
+        procesarFiltros(data) {
+          const lineas = data.split('\n');
+          const filtros = [];
+          let filtroActual = null;
+
+          for (const linea of lineas) {
+            if (linea.startsWith('name=')) {
+              if (filtroActual) {
+                filtros.push(filtroActual);
+              }
+              filtroActual = { name: linea.substring(5), content: linea };
+            } else if (filtroActual) {
+              filtroActual.content += '\n' + linea;
+            }
+          }
+
+          if (filtroActual) {
+            filtros.push(filtroActual);
+          }
+
+          return filtros;
+        },
+
+        async escribirAlFinal(rutaFichero, contenidoFiltro, accountKey) {
           try {
             let file = Components.classes["@mozilla.org/file/local;1"]
                                  .createInstance(Components.interfaces.nsIFile);
@@ -88,105 +105,65 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             fstream.close();
     
             console.log('Filtro añadido correctamente.');
+
+            // Notificar a Thunderbird del cambio
+            await this.notifyFilterChange(accountKey);
+
             return true;
           } catch (err) {
             console.error(`Error al escribir en el archivo: ${err}`);
             throw err;
           }
         },
-  /*        
-        async  escribirAlFinal(rutaFichero, linea) {
+
+        async notifyFilterChange(accountKey) {
           try {
-              // Usar APIs nativas de Thunderbird para acceder al archivo
-              let file = Components.classes["@mozilla.org/file/local;1"]
-                                   .createInstance(Components.interfaces.nsIFile);
-              file.initWithPath(rutaFichero);
-      
-              let fstream = Components.classes["@mozilla.org/network/file-output-stream;1"]
-                                       .createInstance(Components.interfaces.nsIFileOutputStream);
-      
-              // Abre el archivo en modo escritura, permitiendo agregar al final (modo 0x02)
-              fstream.init(file, 0x02 | 0x10, 0o666, 0);
-      
-              // Crear una instancia para convertir la cadena a un flujo de datos
-              let cstream = Components.classes["@mozilla.org/intl/converter-output-stream;1"]
-                                       .createInstance(Components.interfaces.nsIConverterOutputStream);
-      
-              cstream.init(fstream, "UTF-8", 0, 0);
-      
-              // Escribe la línea al final del archivo
-              cstream.writeString("\n" + linea);
-      
-              // Cerrar ambos streams
-              cstream.close();
-              fstream.close();
-      
-              console.log('Línea añadida correctamente.');
-          } catch (err) {
-              console.error(`Error al escribir en el archivo: ${err}`);
-              throw err;
-          }
-      },
-    
-      procesarFiltros(data) {
-        // Dividir el contenido en líneas
-        const lineas = data.split('\n');
-        const filtros = [];
-        let filtroActual = null;
-
-        for (const linea of lineas) {
-          if (linea.startsWith('name=')) {
-            // Nuevo filtro
-            if (filtroActual) {
-              filtros.push(filtroActual);
+            console.log('Notificando cambio de filtros para la cuenta:', accountKey);
+            let account = MailServices.accounts.getAccount(accountKey);
+            if (account && account.incomingServer) {
+              console.log('Cuenta encontrada, obteniendo lista de filtros');
+              let filterList = account.incomingServer.getFilterList(null);
+              
+              if (filterList) {
+                console.log('Lista de filtros obtenida, intentando actualizar');
+                // Usar los métodos disponibles para actualizar la lista de filtros
+                filterList.saveToDefaultFile();
+                
+                // Intentar recargar los filtros
+                if (typeof filterList.defaultFile === 'function') {
+                  let defaultFile = filterList.defaultFile();
+                  if (defaultFile && typeof filterList.loadFromFile === 'function') {
+                    filterList.loadFromFile(defaultFile);
+                  }
+                }
+                
+                // Asegurarse de que los cambios se apliquen
+                if (typeof filterList.applyFilters === 'function') {
+                  filterList.applyFilters();
+                }
+              } else {
+                console.log('No se pudo obtener la lista de filtros');
+              }
+              
+              // Notificar a las ventanas abiertas
+              let windows = Services.wm.getEnumerator("mail:3pane");
+              while (windows.hasMoreElements()) {
+                let win = windows.getNext();
+                if (win.gFilterListManager) {
+                  console.log('Actualizando ventana de filtros');
+                  win.gFilterListManager.rebuildFilterList();
+                }
+              }
+        
+              console.log('Thunderbird notificado del cambio en los filtros.');
+            } else {
+              console.log('No se encontró la cuenta o el servidor de entrada');
             }
-            filtroActual = { name: linea.substring(5) };
-          } else if (filtroActual) {
-            // Añadir más información al filtro actual
-            const [clave, valor] = linea.split('=');
-            if (clave && valor) {
-              filtroActual[clave] = valor;
-            }
+          } catch (error) {
+            console.error('Error al notificar a Thunderbird del cambio en los filtros:', error);
           }
         }
-
-        // Añadir el último filtro si existe
-        if (filtroActual) {
-          filtros.push(filtroActual);
-        }
-
-        return filtros;
-      },
-
-*/
-procesarFiltros(data) {
-  const lineas = data.split('\n');
-  const filtros = [];
-  let filtroActual = null;
-
-  for (const linea of lineas) {
-    if (linea.startsWith('name=')) {
-      if (filtroActual) {
-        filtros.push(filtroActual);
-      }
-      filtroActual = { name: linea.substring(5), content: linea };
-    } else if (filtroActual) {
-      filtroActual.content += '\n' + linea;
-    }
-  }
-
-  if (filtroActual) {
-    filtros.push(filtroActual);
-  }
-
-  return filtros;
-}
-
-//Fin de funciones        
       },
     };
   }
 };
-
-
-
