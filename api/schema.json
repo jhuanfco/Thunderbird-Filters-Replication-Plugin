@@ -38,8 +38,33 @@
           "description": "El contenido del archivo de texto leído. Si ocurre un error durante la lectura, se lanzará una excepción."
         },
         "async": true
-      }
+      },
     
+      {
+        "name": "escribirAlFinal",
+        "type": "function",
+        "description": "Escribe una línea al final de un archivo de texto especificado por su ruta de archivo. La función recibe una cadena de texto que representa la ruta del archivo y otra cadena que representa la línea a añadir. No devuelve ningún valor.",
+        "parameters": [
+          {
+            "name": "filePath",
+            "type": "string",
+            "description": "La ruta completa del archivo de texto al que se desea añadir la línea. Debe ser una ruta válida dentro del sistema de archivos accesible."
+          },
+          {
+            "name": "linea",
+            "type": "string",
+            "description": "La línea de texto que se añadirá al final del archivo especificado."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": "No retorna ningún valor. Si ocurre un error durante la escritura, se lanzará una excepción."
+        },
+        "async": true
+      }
+      
+
+
 
     ]
   }

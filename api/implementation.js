@@ -60,8 +60,41 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             console.error('Error al abrir el archivo:', error);
             throw error;
           }
-        }
-
+        },
+        
+        async  escribirAlFinal(rutaFichero, linea) {
+          try {
+              // Usar APIs nativas de Thunderbird para acceder al archivo
+              let file = Components.classes["@mozilla.org/file/local;1"]
+                                   .createInstance(Components.interfaces.nsIFile);
+              file.initWithPath(rutaFichero);
+      
+              let fstream = Components.classes["@mozilla.org/network/file-output-stream;1"]
+                                       .createInstance(Components.interfaces.nsIFileOutputStream);
+      
+              // Abre el archivo en modo escritura, permitiendo agregar al final (modo 0x02)
+              fstream.init(file, 0x02 | 0x10, 0o666, 0);
+      
+              // Crear una instancia para convertir la cadena a un flujo de datos
+              let cstream = Components.classes["@mozilla.org/intl/converter-output-stream;1"]
+                                       .createInstance(Components.interfaces.nsIConverterOutputStream);
+      
+              cstream.init(fstream, "UTF-8", 0, 0);
+      
+              // Escribe la línea al final del archivo
+              cstream.writeString("\n" + linea);
+      
+              // Cerrar ambos streams
+              cstream.close();
+              fstream.close();
+      
+              console.log('Línea añadida correctamente.');
+          } catch (err) {
+              console.error(`Error al escribir en el archivo: ${err}`);
+              throw err;
+          }
+      }
+      
 
 //Fin de funciones        
       },
