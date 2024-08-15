@@ -56,9 +56,9 @@ var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
             cstream.close();
 
             // Procesar los datos para crear el array de filtros
-            this.procesarFiltros(data);
-            
-            return data;
+            return this.procesarFiltros(data);
+
+           // return data;
             
           } catch (error) {
             console.error('Error al abrir el archivo:', error);

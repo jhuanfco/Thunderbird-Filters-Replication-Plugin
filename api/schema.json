@@ -34,8 +34,14 @@
           }
         ],
         "returns": {
-          "type": "string",
-          "description": "El contenido del archivo de texto leído. Si ocurre un error durante la lectura, se lanzará una excepción."
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" }
+            }
+          },
+          "description": "Un array de objetos, cada uno representando un filtro."
         },
         "async": true
       },
