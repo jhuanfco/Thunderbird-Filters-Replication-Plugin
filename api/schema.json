@@ -23,7 +23,7 @@
       }, 
 
       {
-        "name": "leeFichero",
+        "name": "readFiltersFile",
         "type": "function",
         "description": "Lee el contenido de un archivo de texto especificado por su ruta de archivo. La función recibe una cadena de texto que representa la ruta del archivo y devuelve el contenido del archivo como una cadena de texto.",
         "parameters": [
@@ -47,17 +47,17 @@
       },
     
       {
-        "name": "escribirAlFinal",
+        "name": "appendFilterToAccount",
         "type": "function",
         "description": "Escribe un nuevo filtro al final del archivo de filtros especificado y notifica a Thunderbird del cambio.",
         "parameters": [
           {
-            "name": "rutaFichero",
+            "name": "targetFilePath",
             "type": "string",
             "description": "La ruta completa del archivo de filtros donde se añadirá el nuevo filtro."
           },
           {
-            "name": "contenidoFiltro",
+            "name": "filterRules",
             "type": "string",
             "description": "El contenido completo del filtro que se va a añadir."
           },

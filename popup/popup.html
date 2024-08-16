@@ -1,9 +1,56 @@
+<!--
+Modificamos las versiones anteriores para incluir etiquetas. Las etiquetas <label> se utilizan para mejorar la accesibilidad
+     y la semántica del HTML.
+Asociar un <label> con un elemento de formulario como <select> permite que los usuarios que 
+    utilizan lectores de pantalla puedan navegar y entender mejor el contenido
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selector de Cuentas</title>
+    <title>Thunderbird Filter Copier</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="content">
+        <h2>Cuentas configuradas</h2>
+        <div class="selectors-container">
+            <div class="selector-container">
+                <label for="source-account"><h3>Cuenta Origen</h3></label>
+                <select id="source-account"></select>
+                <label for="source-filters"><h3>Filtros Origen</h3></label>
+                <select id="source-filters"></select>
+            </div>
+            <div class="selector-container">
+                <label for="target-account"><h3>Cuenta Destino</h3></label>
+                <select id="target-account"></select>
+                <div id="target-filters-container">
+                    <h4>Filtros existentes:</h4>
+                    <ul id="target-filters-list"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="copy-button">Copiar filtro</button>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
+
+
+<!--
+
+Modifica a : 
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thunderbird Filter Copier</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -25,9 +72,11 @@
             </div>
         </div>
         <div class="button-container">
-            <button id="copy-button">Copiar</button>
+            <button id="copy-button">Copiar filtro</button>
         </div>
     </div>
     <script src="popup.js"></script>
 </body>
 </html>
+
+-->
