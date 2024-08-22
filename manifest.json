@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Thunderbird Filter Copier",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Permite la replicación de filtros de mensajes entre múltiples cuentas de correo",
   "author": "JuanFco.",
 
@@ -30,11 +30,11 @@
   },
 
   "experiment_apis": {
-    "filterManagerApi": {
+    "filterCopyApi": {
       "schema": "api/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["filterManagerApi"]],
+        "paths": [["filterCopyApi"]],
         "script": "api/implementation.js"
       }
     }

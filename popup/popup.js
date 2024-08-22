@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedAccount) {
             try {
                 // Llama a la API para leer el archivo de filtros de la cuenta seleccionada
-                const filters = await browser.filterManagerApi.readFiltersFile(selectedAccount.filterFilePath);
+                const filters = await browser.filterCopyApi.readFiltersFile(selectedAccount.filterFilePath);
                 // Reinicia el selector de filtros
                 filtersSelect.innerHTML = '<option value="">Seleccione un filtro</option>'; 
                 // Agrega cada filtro como una opción
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedAccount) {
             try {
                 // Llama a la API para leer el archivo de filtros de la cuenta seleccionada
-                const filters = await browser.filterManagerApi.readFiltersFile(selectedAccount.filterFilePath);
+                const filters = await browser.filterCopyApi.readFiltersFile(selectedAccount.filterFilePath);
                 // Reinicia el selector de filtros
                 filtersList.innerHTML = ''; 
                 // Reinicia el selector de filtros
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Hacia:', targetAccount.filterFilePath);
                 
                 // Escribir el filtro al final del archivo de filtros de la cuenta de destino
-                await browser.filterManagerApi.appendFilterToAccount(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
+                await browser.filterCopyApi.appendFilterToAccount(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
                 console.log('Filtro copiado con éxito');
                 // Notificar al usuario que el filtro fue copiado exitosamente
                 alert('Filtro copiado con éxito'); 
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Inicializa: obtiene la información de las cuentas, configura los selectores
      * y establece los event listeners para los elementos de la interfaz
      */
-    browser.filterManagerApi.getAccountsInfo().then(accounts => {
+    browser.filterCopyApi.getAccountsInfo().then(accounts => {
         // Guardar los datos de las cuentas
         accountsData = accounts; 
         // rellenar el selector de cuenta de origen
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedAccount = accountsData.find(account => account.key === select.value);
         if (selectedAccount) {
             try {
-                const filters = await browser.filterManagerApi.leeFichero(selectedAccount.filterFilePath);
+                const filters = await browser.filterCopyApi.leeFichero(selectedAccount.filterFilePath);
                 filtersSelect.innerHTML = '<option value="">Seleccione un filtro</option>';
                 filters.forEach(filter => {
                     const option = document.createElement('option');
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedAccount = accountsData.find(account => account.key === select.value);
         if (selectedAccount) {
             try {
-                const filters = await browser.filterManagerApi.leeFichero(selectedAccount.filterFilePath);
+                const filters = await browser.filterCopyApi.leeFichero(selectedAccount.filterFilePath);
                 filtersList.innerHTML = '';
                 filters.forEach(filter => {
                     const li = document.createElement('li');
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Desde:', sourceAccount.filterFilePath);
                 console.log('Hacia:', targetAccount.filterFilePath);
 
-                await browser.filterManagerApi.escribirAlFinal(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
+                await browser.filterCopyApi.escribirAlFinal(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
                 console.log('Filtro copiado con éxito');
                 alert('Filtro copiado con éxito');
             } catch (error) {
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    browser.filterManagerApi.getAccountsInfo().then(accounts => {
+    browser.filterCopyApi.getAccountsInfo().then(accounts => {
         accountsData = accounts;
         selectAccount(sourceSelect, accounts);
         selectAccount(targetSelect, accounts);

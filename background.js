@@ -4,7 +4,7 @@
 // Añade un listener para el evento de clic en el botón de la extensión
 browser.browserAction.onClicked.addListener(() => {
     // Registra un mensaje en la consola cuando se hace clic en el botón
-    // console.log("SOY background.js abriendo popup");
+     console.log("SOY background.js --filterCopyApi--abriendo popup");
 
     // Crea y abre una ventana emergente con el contenido de popup.html
     browser.windows.create({

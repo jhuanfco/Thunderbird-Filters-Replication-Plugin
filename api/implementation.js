@@ -3,12 +3,12 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 // Definir la clase que extiende la API de la extensión
-var filterManagerApi = class extends ExtensionCommon.ExtensionAPI {
+var filterCopyApi = class extends ExtensionCommon.ExtensionAPI {
   
   // Método para obtener la API que se expone a la extensión
   getAPI(context) {
     return {
-      filterManagerApi: {
+      filterCopyApi: {
 
         /**
          * Función para obtener la información de las cuentas configuradas en Thunderbird
