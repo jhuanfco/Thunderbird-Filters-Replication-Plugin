@@ -139,9 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Escribir el filtro al final del archivo de filtros de la cuenta de destino
                 await messenger.filterCopyApi.appendFilterToAccount(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
+
                 console.log('Filtro copiado con éxito');
+
                 // Notificar al usuario que el filtro fue copiado exitosamente
                 alert('Filtro copiado con éxito'); 
+
+                // Cerrar la ventana de filtros solamente en el caso de que sea correcto.
+                messenger.windows.getCurrent().then(windowInfo => {
+                    messenger.windows.remove(windowInfo.id);
+                });
+
             } catch (error) {
                 // Manejar errores durante la copia. Notificar al usuario si ocurre un error
                 console.error('Error al copiar el filtro:', error); 
