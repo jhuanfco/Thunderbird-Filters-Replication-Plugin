@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Array para almacenar la información de las cuentas
     let accountsData = []; 
-
    
     /** 
      * Función para rellenar los selectores de cuentas con los datos de las cuentas obtenidas
@@ -133,14 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Parsea el filtro seleccionado desde JSON.  
                 const selectedFilter = JSON.parse(selectedFilterJson); 
-                console.log('Copiando filtro:', selectedFilter.name);
-                console.log('Desde:', sourceAccount.filterFilePath);
-                console.log('Hacia:', targetAccount.filterFilePath);
+                //console.log('Copiando filtro:', selectedFilter.name);
+                //console.log('Desde:', sourceAccount.filterFilePath);
+                //console.log('Hacia:', targetAccount.filterFilePath);
                 
                 // Escribir el filtro al final del archivo de filtros de la cuenta de destino
                 await messenger.filterCopyApi.appendFilterToAccount(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
 
-                console.log('Filtro copiado con éxito');
+                //console.log('Filtro copiado con éxito');
 
                 // Notificar al usuario que el filtro fue copiado exitosamente
                 alert('Filtro copiado con éxito'); 
@@ -187,116 +186,3 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error al obtener las cuentas:', error); 
     });
 });
-
-
-
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const sourceSelect = document.getElementById('source-account');
-    const targetSelect = document.getElementById('target-account');
-    const sourceFiltersSelect = document.getElementById('source-filters');
-    const targetFiltersContainer = document.getElementById('target-filters-container');
-    const targetFiltersList = document.getElementById('target-filters-list');
-    const copyButton = document.getElementById('copy-button');
-
-    let accountsData = [];
-
-    function selectAccount(select, accounts) {
-        select.innerHTML = '<option value="">Seleccione una cuenta</option>';
-        accounts.forEach(account => {
-            const option = document.createElement('option');
-            option.value = account.key;
-            option.textContent = account.name;
-            select.appendChild(option);
-        });
-    }
-
-    async function updateSourceFilters(select, filtersSelect) {
-        const selectedAccount = accountsData.find(account => account.key === select.value);
-        if (selectedAccount) {
-            try {
-                const filters = await messenger.filterCopyApi.leeFichero(selectedAccount.filterFilePath);
-                filtersSelect.innerHTML = '<option value="">Seleccione un filtro</option>';
-                filters.forEach(filter => {
-                    const option = document.createElement('option');
-                    option.value = JSON.stringify(filter); // Guardamos todo el objeto filtro
-                    option.textContent = filter.name;
-                    filtersSelect.appendChild(option);
-                });
-                filtersSelect.style.display = 'block';
-            } catch (error) {
-                console.error('Error al leer los filtros de origen:', error);
-                filtersSelect.style.display = 'none';
-            }
-        } else {
-            filtersSelect.style.display = 'none';
-        }
-        updateCopyButtonState();
-    }
-
-    async function updateTargetFilters(select, listContainer, filtersList) {
-        const selectedAccount = accountsData.find(account => account.key === select.value);
-        if (selectedAccount) {
-            try {
-                const filters = await messenger.filterCopyApi.leeFichero(selectedAccount.filterFilePath);
-                filtersList.innerHTML = '';
-                filters.forEach(filter => {
-                    const li = document.createElement('li');
-                    li.textContent = filter.name;
-                    filtersList.appendChild(li);
-                });
-                listContainer.style.display = 'block';
-            } catch (error) {
-                console.error('Error al leer los filtros de destino:', error);
-                listContainer.style.display = 'none';
-            }
-        } else {
-            listContainer.style.display = 'none';
-        }
-        updateCopyButtonState();
-    }
-
-    function updateCopyButtonState() {
-        copyButton.disabled = !(sourceSelect.value && targetSelect.value && sourceFiltersSelect.value);
-    }
-
-    async function handleCopyButtonClick() {
-        const sourceAccount = accountsData.find(account => account.key === sourceSelect.value);
-        const targetAccount = accountsData.find(account => account.key === targetSelect.value);
-        const selectedFilterJson = sourceFiltersSelect.value;
-
-        if (sourceAccount && targetAccount && selectedFilterJson) {
-            try {
-                const selectedFilter = JSON.parse(selectedFilterJson);
-                console.log('Copiando filtro:', selectedFilter.name);
-                console.log('Desde:', sourceAccount.filterFilePath);
-                console.log('Hacia:', targetAccount.filterFilePath);
-
-                await messenger.filterCopyApi.escribirAlFinal(targetAccount.filterFilePath, selectedFilter.content, targetAccount.key);
-                console.log('Filtro copiado con éxito');
-                alert('Filtro copiado con éxito');
-            } catch (error) {
-                console.error('Error al copiar el filtro:', error);
-                alert('Error al copiar el filtro: ' + error.message);
-            }
-        } else {
-            console.error('Por favor, seleccione una cuenta origen, una cuenta destino y un filtro antes de copiar.');
-            alert('Por favor, seleccione una cuenta origen, una cuenta destino y un filtro antes de copiar.');
-        }
-    }
-
-    messenger.filterCopyApi.getAccountsInfo().then(accounts => {
-        accountsData = accounts;
-        selectAccount(sourceSelect, accounts);
-        selectAccount(targetSelect, accounts);
-
-        sourceSelect.addEventListener('change', () => updateSourceFilters(sourceSelect, sourceFiltersSelect));
-        targetSelect.addEventListener('change', () => updateTargetFilters(targetSelect, targetFiltersContainer, targetFiltersList));
-        sourceFiltersSelect.addEventListener('change', updateCopyButtonState);
-        copyButton.addEventListener('click', handleCopyButtonClick);
-    }).catch(error => {
-        console.error('Error al obtener las cuentas:', error);
-    });
-});
-
-*/

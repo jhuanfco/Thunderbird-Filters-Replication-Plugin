@@ -213,7 +213,7 @@ var filterCopyApi = class extends ExtensionCommon.ExtensionAPI {
             cstream.close(); 
             fstream.close(); 
     
-            console.log('Filtro añadido correctamente.');
+            //console.log('Filtro añadido correctamente.');
 
             // Notificar a Thunderbird del cambio
             await this.notifyFilterChange(accountKey);
@@ -235,16 +235,16 @@ var filterCopyApi = class extends ExtensionCommon.ExtensionAPI {
          */
         async notifyFilterChange(accountKey) {
           try {
-            console.log('Notificando cambio de filtros para la cuenta:', accountKey);
+            //console.log('Notificando cambio de filtros para la cuenta:', accountKey);
             // Obtener la cuenta por su clave
             let account = MailServices.accounts.getAccount(accountKey); 
             if (account && account.incomingServer) {
-              console.log('Cuenta encontrada, obteniendo lista de filtros');
+              //console.log('Cuenta encontrada, obteniendo lista de filtros');
               // Obtener la lista de filtros de la cuenta
               let filterList = account.incomingServer.getFilterList(null); 
               
               if (filterList) {
-                console.log('Lista de filtros obtenida, intentando actualizar');
+                //console.log('Lista de filtros obtenida, intentando actualizar');
                 // Guardar los cambios en el archivo de filtros
                 filterList.saveToDefaultFile();
                 
@@ -269,12 +269,12 @@ var filterCopyApi = class extends ExtensionCommon.ExtensionAPI {
               while (windows.hasMoreElements()) {
                 let win = windows.getNext();
                 if (win.gFilterListManager) {
-                  console.log('Actualizando ventana de filtros');
+                  //console.log('Actualizando ventana de filtros');
                   win.gFilterListManager.rebuildFilterList();
                 }
               }
         
-              console.log('Thunderbird notificado del cambio en los filtros.');
+              //console.log('Thunderbird notificado del cambio en los filtros.');
             } else {
               console.log('No se encontró la cuenta o el servidor de entrada');
             }

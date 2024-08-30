@@ -2,8 +2,7 @@
   {
     "namespace": "filterCopyApi",
     "functions": [
-  
-      
+   
       {
         "name": "getAccountsInfo",
         "type": "function",
@@ -73,10 +72,6 @@
         },
         "async": true
       }
-      
-
-
-
     ]
   }
 ]

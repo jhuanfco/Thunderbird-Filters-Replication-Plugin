@@ -4,7 +4,7 @@
 // Añade un listener para el evento de clic en el botón de la extensión
 messenger.browserAction.onClicked.addListener(() => {
     // Registra un mensaje en la consola cuando se hace clic en el botón
-     console.log("SOY background.js --filterCopyApi-messenger-popup-abriendo popup");
+    // console.log("SOY background.js");
 
     // Crea y abre una ventana emergente con el contenido de popup.html
     messenger.windows.create({
@@ -15,9 +15,7 @@ messenger.browserAction.onClicked.addListener(() => {
     });
 });
 
-
 /*
-
 Event Listener:
    Se añade un event listener al botón de la extensión (messenger.browserAction) para el evento 'onClicked'.
    Esto significa que la función proporcionada se ejecutará cada vez que el usuario haga clic en el 
